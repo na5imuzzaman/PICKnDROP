@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block core %}
+    {% if obj.orderDetails.author.profileAuthor == user or obj.deliveryMan.profileAuthor == user %}
+
+        <div class="container ">
+            <div class="row justify-content-center">
+                <div class="col-8 col-md-4 col-sm-6">
+                    <h3 class="border-bottom mb-4 mt-5 text-center font-weight-bold">Parcel Details</h3>
+                </div>
+            </div>
+            <div class="row justify-content-center text-capitalize">
+                <div class="col-10 col-md-8">
+                    <h5>Parcel ID: <strong>{{ obj.orderDetails.id }}</strong></h5>
+                    <h5>Delivery Date: <strong>{{ obj.orderDetails.deliveryDate }}</strong></h5>
+                    <h5>Pickup Point Type: <strong>{{ obj.orderDetails.pickupPointType }}</strong></h5>
+                    <h5>Pickup Point: <strong>{{ obj.orderDetails.pickupPoint }}</strong></h5>
+                    <h5>Delivery Point: <strong>{{ obj.orderDetails.deliveryPoint }}</strong></h5>
+                    <h5>Parcel Type: <strong>{{ obj.orderDetails.parcelType }}</strong></h5>
+                    <h5>Parcel Description: <strong>{{ obj.orderDetails.parcelDescription }}</strong></h5>
+                    <h5>Estimate Weight: <strong>{{ obj.orderDetails.weight }} kg</strong></h5>
+                    <h5>Order Accept Time: <strong>{{ obj.acceptTime }}</strong></h5>
+                    <br>
+                    <h4>Current Status:</h4>
+                    <h5>Delivery Man Pick Parcel: <strong>{{ obj.pickParcel }}</strong></h5>
+                    <h5>Customer Receive Delivery: <strong>{{ obj.getDelivery }}</strong></h5>
+
+                </div>
+            </div>
+
+            <div style="padding-top: 50px;"></div>
+
+            <div class="row">
+                <div class="col-5 ">
+                    <h3 class="border-bottom mb-4 mt-5 text-center font-weight-bold">Customer Details</h3>
+                </div>
+
+                <div class="col-2"></div>
+
+                <div class="col-5">
+                    <h3 class="border-bottom mb-4 mt-5 text-center font-weight-bold">Delivery Man Details</h3>
+                </div>
+            </div>
+
+            <div class="row text-capitalize">
+                <div class="col-5 ">
+                    <h5>Name: <strong>{{ obj.orderDetails.author.profileAuthor.first_name }}</strong></h5>
+                    <h5>U. ID: <strong>{{ obj.orderDetails.author.profileAuthor.username }}</strong></h5>
+                    <h5>Address: <strong>{{ obj.orderDetails.author.hallName }}-{{ obj.orderDetails.author.roomNumber }}</strong></h5>
+                    <h5>Contact1: <strong>{{ obj.orderDetails.author.contact1 }}</strong></h5>
+                    <h5>Contact2: <strong>{{ obj.orderDetails.author.contact2 }}</strong></h5>
+                </div>
+
+                <div class="col-2"></div>
+
+                <div class="col-5 ">
+                    <h5>Name: <strong>{{ obj.deliveryMan.profileAuthor.first_name }}</strong></h5>
+                    <h5>U. ID: <strong>{{ obj.deliveryMan.profileAuthor.username }}</strong></h5>
+                    <h5>Address: <strong>{{ obj.deliveryMan.hallName }}-{{ obj.deliveryMan.roomNumber }}</strong></h5>
+                    <h5>Contact1: <strong>{{ obj.deliveryMan.contact1 }}</strong></h5>
+                    <h5>Contact2: <strong>{{ obj.deliveryMan.contact2 }}</strong></h5>
+                </div>
+            </div>
+
+            <div class="row mt-5 float-right">
+                <form action="." method="post">
+                    {% csrf_token %}
+                    {% if user == obj.orderDetails.author.profileAuthor %}
+                        {% if obj.getDelivery %}
+                            <button class="btn btn-primary" type="button">Received Delivery</button>
+                        {% else %}
+                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#parcel">Receive Delivery?</button>
+                        {% endif %}
+                    {% else %}
+                        {% if obj.pickParcel %}
+                            <button class="btn btn-primary" type="button">Picked Parcel</button>
+                        {% else %}
+                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#parcel">Pick Parcel?</button>
+                        {% endif %}
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="parcel" tabindex="-1" role="dialog" aria-labelledby="parcelLable" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="parcelLable">
+                            {% if user == obj.orderDetails.author.profileAuthor %}
+                                <strong>Get Delivery</strong>
+                            {% elif user == obj.deliveryMan.profileAuthor %}
+                                <strong>Pick Parcel</strong>
+                            {% endif %}
+                        </h5>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% if user == obj.deliveryMan.profileAuthor %}
+                            <p>Do you pick your parcel?</p>
+                            <small>No Crying Afterwards :)</small>
+                        {% elif user == obj.orderDetails.author.profileAuthor and obj.pickParcel %}
+                            <p>Do you receive your parcel?</p>
+                            <small>No Crying Afterwards :)</small>
+                        {% elif user == obj.orderDetails.author.profileAuthor %}
+                            <p>Aww, Is it possible, bro?</p>
+                            <small>The delivery man didn't pick the parcel yet.</small>
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <form action="." method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary">Yes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div style="padding-top: 300px;"> <h1></h1></div>
+    {% else %}
+        <h1>Not Authorized! </h1>
+    {% endif %}
+
+
+
+{% endblock %}

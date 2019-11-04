@@ -1,0 +1,91 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>PICKnDROP</title>
+  </head>
+  <body>
+
+    <!-- navbar open -->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" style="background-color: #e3f2fd;">
+        <a class="navbar-brand mr-5 ml-5 fon" href="{% url 'home' %}">PICKnDROP</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+              {% if user.is_authenticated %}
+                  <a class="nav-link" href="../../../../profile/{{ user.username }}/">Profile</a>
+              {% else %}
+                  <a class="nav-link" href="{% url 'login' %}">Profile</a>
+              {% endif %}
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'request-form' %}">Open a Request</a>
+          </li>
+
+        </ul>
+
+        <span class="navbar-text">
+            {% if user.is_authenticated %}
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{ user.first_name }}
+
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item " href="{% url 'password_change' %}">Change Password</a>
+                    <a class="dropdown-item btn btn-danger" href="{% url 'logout' %}">Logout</a>
+                  </div>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-secondary" >Login</a>
+            {% endif %}
+        </span>
+      </div>
+    </nav>
+
+    <!-- navbar close -->
+    <div  style="padding-top: 6em;"></div>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            {% block title %} {% endblock %}
+        </div>
+    </div>
+
+
+{#     All form appear here #}
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-8 col-md-4 col-sm-6">
+                {% block form %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+{#    <--! Blockend -->#}
+
+    {% block core %}
+    {% endblock %}
+    {% block js %}
+    {% endblock %}
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

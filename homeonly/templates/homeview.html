@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block core %}
+
+    <div class="row justify-content-center">
+        <div class="col-10 col-md-5" style="padding-top: 30px; font-weight: bold">
+            <h3 class="border-bottom text-center">Request to Deliver</h3>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col col-md-7">
+               <table class="table table-condensed" style="border-collapse:collapse;">
+                    <thead class="thead-dark">
+                        <tr class="text-center ">
+                            <th scope="col">#</th>
+                            <th scope="col">Delivery Date</th>
+                            <th scope="col">Pickup Point</th>
+                            <th scope="col">Product Type</th>
+{#                            <th scope="col">Estimate Weight(kg)</th>#}
+                            <th scope="col">Delivery Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for obj in queryset %}
+
+
+                         <tr data-toggle="collapse" data-target="#demo{{ forloop.counter }}" class=" accordion-toggle text-center">
+
+
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td id>{{ obj.deliveryDate }}</td>
+                                 <td>{{ obj.pickupPoint }}</td>
+                                 <td>{{ obj.parcelType }}</td>
+                                <td>{{ obj.deliveryCost }}/-</td>
+
+                         </tr>
+
+                            <tr>
+                                <td colspan="6" class="hiddenRow"><div class="accordian-body collapse" id="demo{{ forloop.counter }}"> {% include 'order_details.html' %} </div>  </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container mt-5 mb-5 border-bottom border-danger" style="padding-top: 10em;"></div>
+
+
+{#</div>#}
+
+
+{% endblock %}

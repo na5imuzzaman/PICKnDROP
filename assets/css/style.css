@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto|Staatliches&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+}
+
+.head {
+    margin-top: 25px;
+    padding-bottom: 35px;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    font-family: "InputMono Medium";
+    text-shadow: #5897fb 2px 3px;
+}
+
+ h3 {
+    font-weight: bold;
+}
+
+
+img {
+    height: 200px;
+    /*width: 200px;*/
+}
+
+table, td, th {
+    border-bottom: 1px solid #343A40;
+}
+
+.ss {
+    border-bottom: 2px solid #343A40;
+    text-align: center;
+    font-weight: bold;
+}
+
+ul li a{
+  font-size: 22px;
+  font-weight: bold;
+  /* padding-right: 100px; */
+}
+
+.fon {
+    font-family: 'Staatliches', cursive; !important;
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.table tr {
+    cursor: pointer;
+}
+.hiddenRow {
+    padding: 0 4px !important;
+    background-color: #eeeeee;
+    font-size: 13px;
+    border: 0;
+}
+
+
+
+
+

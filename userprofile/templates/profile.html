@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block core %}
+    <div class="w-100 h-100 mt-5 text-center align-item-center">
+{#        <h4>This is my profile.</h4>#}
+        <div class="xyz">
+            <img class="mb-5 rounded" src="{{ profile.displayPicture.url }}" alt="User's pic">
+            <h3>Hi, I'm {{ profile.profileAuthor.first_name }}</h3>
+            <h4>University ID: {{ profile.profileAuthor.username }}</h4>
+            <h4>Hall Name: {{ profile.hallName }}</h4>
+            <h4>Room Number: {{ profile.roomNumber }}</h4>
+            <h4>Primary Contact: {{ profile.contact1 }}</h4>
+            <h4>Secondary Contact: {{ profile.contact2 }}</h4>
+            <h5>Last Online: {{ profile.profileAuthor.last_login}}</h5>
+        </div>
+
+        <br>
+
+    </div>
+
+    <div class=" container mt-5 mb-5 border-bottom border-danger"></div>
+
+    {% if user.username == profile.profileAuthor.username %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col col-md-7">
+                <legend class="border-bottom mb-4 text-center">As a Customer</legend>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr class="text-center">
+                            <th scope="col">#</th>
+                            <th scope="col">Delivery Date</th>
+                            <th scope="col">Delivery Man</th>
+                            <th scope="col">Status</th>
+{#                            <th scope="col">Estimate Weight(kg)</th>#}
+                            <th scope="col">Details Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ds in order_status %}
+                            <tr class="text-center" >
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ ds.orderDetails.deliveryDate }}</td>
+                                <td><a href="../{{ ds.deliveryMan.profileAuthor }}/">{{ ds.deliveryMan.profileAuthor }}</a></td>
+                                {% if ds.delivered %}
+                                    <td>Delivered</td>
+                                {% else %}
+                                    <td>Pending</td>
+                                {% endif %}
+{#                                <td>{{ qs.parcelType }}</td>#}
+                                <td><a href="{{ ds.get_absolute_url_details }}" class="btn btn-primary">Details</a></td>
+{#                                <td><button class="btn btn-primary" type="button">Detail</button></td>#}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+
+
+    <div class=" container mt-5 mb-5 border-bottom border-danger"></div>
+
+
+    {% if user.username == profile.profileAuthor.username %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col col-md-7">
+                <legend class="border-bottom mb-4 text-center">As a Delivery Man</legend>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr class="text-center">
+                            <th scope="col">#</th>
+                            <th scope="col">Delivery Date</th>
+                            <th scope="col">Order By</th>
+                            <th scope="col">Status</th>
+{#                            <th scope="col">Estimate Weight(kg)</th>#}
+                            <th scope="col">Details Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ds in delivery_status %}
+                            <tr class="text-center" >
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ ds.orderDetails.deliveryDate }}</td>
+                                <td><a href="../{{ ds.orderDetails.author.profileAuthor.username }}/">{{ ds.orderDetails.author.profileAuthor.username }}</a></td>
+                                {% if ds.delivered %}
+                                    <td>Delivered</td>
+                                {% elif ds.orderDetails.accepted %}
+                                    <td>Delivery Ongoing</td>
+                                {% else %}
+                                    <td>Pending</td>
+                                {% endif %}
+{#                                <td>{{ qs.parcelType }}</td>#}
+                                <td><a href="{{ ds.get_absolute_url_details }}" class="btn btn-primary">Details</a></td>
+{#                                <td><button class="btn btn-primary" type="button">Detail</button></td>#}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div style="padding-top: 200px;"> </div>
+
+
+{% endblock %}

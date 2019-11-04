@@ -1,0 +1,14 @@
+
+{% autoescape off%}
+    Hi {{ user.first_name }} username: {{ user.username }},
+        I very much appreciate that you are opening an account on PICKnDROP. Please click on the link to confirm your registration,
+
+    http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+    Have a great day, sir!
+
+
+
+    With regards,
+    admin, PICKnDROP.
+{% endautoescape %}

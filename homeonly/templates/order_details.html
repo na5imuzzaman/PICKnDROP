@@ -1,0 +1,93 @@
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    <div class="container">
+        <div class="row mt-5 justify-content-center ">
+            <div class="col-11 col-md-8">
+
+                <h3 class="ss">Order Details</h3>
+                <h4 class="pt-5">Delivery Date:<strong> {{ obj.deliveryDate }}</strong></h4>
+                <h4> Pickup Type:<strong> {{ obj.pickupPointType }}</strong> </h4>
+                <h4> Pickup Point: <strong>{{ obj.pickupPoint }} </strong></h4>
+                <h4> Pickup Point: <strong>{{ obj.pickupPointDescription }} </strong></h4>
+                <h4> Delivery Point:<strong> {{ obj.deliveryPoint }}</strong></h4>
+                <h4> Parcel Type: <strong>{{ obj.parcelType }}</strong></h4>
+                <h4> Description: <strong>{{ obj.deliveryPoint }}</strong></h4>
+                <h4> Est. Weight: <strong>{{ obj.weight }}KG</strong></h4>
+                <h4> Post Date: <strong>{{ obj.postDate }}</strong></h4>
+                <br>
+
+                {% if user.username != obj.author.profileAuthor.username %}
+                    <br>
+                    <span><button class="btn btn-primary " type="button" data-toggle="modal" data-target="#accept{{ obj.id }}">
+                        Accept
+                    </button></span>
+
+                    <div class="modal fade" id="accept{{ obj.id }}" tabindex="-1" role="dialog" aria-labelledby="accept{{ obj.id }}Label" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="accept{{ obj.id }}">
+                                        <strong>Accept Order</strong>
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Will you deliver this parcel on time?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+                                    <form action="." method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-secondary" name="id" value="{{ obj.id }}">Yes, I will</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <h5 style="font-weight: bold;">You Ordered This!</h5>
+                    <div class="row">
+                    <span><a href="{{ obj.get_absolute_url_update }}" class="btn btn-primary mr-3">Update</a></span>
+                    <span><button  class="btn btn-danger mr-5" type="button" data-toggle="modal" data-target="#confirm{{ obj.id }}">
+                        Delete
+                    </button></span>
+
+                    </div>
+
+                    <div class="modal fade" id="confirm{{ obj.id }}" tabindex="-1" role="dialog" aria-labelledby="confirm{{ obj.id }}" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmLabel{{ obj.id }}">
+                                        <strong>Delete Order</strong>
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Wanna delete this order?</h5>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <form action="." method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger" name="id" value="{{ obj.id }}">Confirm Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            <div class="mb-5"></div>
+            </div>
+        </div>
+
+    </div>
