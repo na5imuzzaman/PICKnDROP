@@ -59,7 +59,8 @@ EMAIL_USE_TLS = True
 SEND_GRID_API_KEY = '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'
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'nasimuzzaman'
-DEFAULT_FROM_EMAIL = 'PICKnDROP Admin <pickndrop@webdemons43.com>'
+# DEFAULT_FROM_EMAIL = 'PICKnDROP Admin <pickndrop@webdemons43.com>'
+DEFAULT_FROM_EMAIL = 'PICKnDROP Admin <noreply@pickndrop.com>'
 EMAIL_HOST_PASSWORD = 'uvmvuneabvqhrahq1127'
 EMAIL_PORT = 587
 

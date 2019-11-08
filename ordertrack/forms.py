@@ -6,7 +6,8 @@ from .models import PostOrderRequest
 class PostOrderRequestForm(forms.ModelForm):
     weight = forms.DecimalField(max_value=5.0, label='Weight(KG)',
                                 widget=forms.TextInput(attrs={'placeholder': 'max: 5'}))
-    # date = forms.DateField(widget=Date)
+    deliveryDate = forms.DateField(
+        widget=forms.TextInput(attrs={'type': 'date'}))
 
     class Meta:
         model = PostOrderRequest
@@ -21,6 +22,6 @@ class PostOrderRequestForm(forms.ModelForm):
             'weight',
             'deliveryDate',
         ]
-        widgets = {
-            'deliveryDate': DatePickerInput().start_of('event days'),
-        }
+        # widgets = {
+        #     'deliveryDate': forms.DateInput(),
+        # }
